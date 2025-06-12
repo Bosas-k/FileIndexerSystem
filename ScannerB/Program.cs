@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
 using System.Threading;
@@ -13,7 +14,10 @@ namespace ScannerB
 
         static void Main(string[] args)
         {
-            // Aplankas TestData šalia projekto
+            // Priskiriam šita programa trečiam CPU branduoliui (branduolys 2)
+            Process.GetCurrentProcess().ProcessorAffinity = (IntPtr)0x4;
+
+            // Nurodytas katalogas šalia programos
             string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "TestData");
 
             if (!Directory.Exists(folderPath))
@@ -60,7 +64,7 @@ namespace ScannerB
 
         static void SiustiIMaster()
         {
-            using (var pipe = new NamedPipeClientStream(".", "agent2", PipeDirection.Out)) // ← PATAISYTA
+            using (var pipe = new NamedPipeClientStream(".", "agent2", PipeDirection.Out))
             using (var writer = new StreamWriter(pipe))
             {
                 Console.WriteLine("Jungiamasi prie Master...");

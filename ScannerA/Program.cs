@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
 using System.Threading;
@@ -13,7 +14,10 @@ namespace ScannerA
 
         static void Main(string[] args)
         {
-            // Aplankas TestData šalia projekto
+            // Priskiriam šita programa antrajam CPU branduoliui (branduolys 1)
+            Process.GetCurrentProcess().ProcessorAffinity = (IntPtr)0x2;
+
+            // Nurodytas katalogas šalia programos
             string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "TestData");
 
             if (!Directory.Exists(folderPath))
