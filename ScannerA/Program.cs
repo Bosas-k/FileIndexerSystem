@@ -1,14 +1,19 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Pipes;
+using System.Threading;
 
 namespace ScannerA
 {
     class Program
     {
+        static ConcurrentQueue<string> eilesDuomenys = new ConcurrentQueue<string>();
+
         static void Main(string[] args)
         {
-            // Automatinis kelias iki aplanko „TestData“
+            // Aplankas TestData šalia projekto
             string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "TestData");
 
             if (!Directory.Exists(folderPath))
@@ -17,11 +22,22 @@ namespace ScannerA
                 return;
             }
 
-            Console.WriteLine($"Skaitomi failai iš: {folderPath}");
+            Thread skaitytojas = new Thread(() => NuskaitykIrRikiuok(folderPath));
+            Thread siuntejas = new Thread(SiustiIMaster);
 
+            skaitytojas.Start();
+            siuntejas.Start();
+
+            skaitytojas.Join();
+            siuntejas.Join();
+
+            Console.WriteLine("Duomenys išsiųsti. Programa baigta.");
+        }
+
+        static void NuskaitykIrRikiuok(string folderPath)
+        {
             foreach (var file in Directory.GetFiles(folderPath, "*.txt"))
             {
-                Console.WriteLine($"\n--- {Path.GetFileName(file)} ---");
                 var tekstas = File.ReadAllText(file);
                 var zodziai = tekstas.Split(new[] { ' ', '\r', '\n', ',', '.', ';', ':', '-', '!', '?' }, StringSplitOptions.RemoveEmptyEntries);
                 var skaitiklis = new Dictionary<string, int>();
@@ -35,11 +51,37 @@ namespace ScannerA
 
                 foreach (var pora in skaitiklis)
                 {
-                    Console.WriteLine($"{Path.GetFileName(file)}:{pora.Key}:{pora.Value}");
+                    eilesDuomenys.Enqueue($"{Path.GetFileName(file)}:{pora.Key}:{pora.Value}");
                 }
             }
 
-            Console.WriteLine("\nSkaitymas baigtas.");
+            eilesDuomenys.Enqueue("BAIGTA"); // žymeklis, kad viskas išsiųsta
+        }
+
+        static void SiustiIMaster()
+        {
+            using (var pipe = new NamedPipeClientStream(".", "agent1", PipeDirection.Out))
+            using (var writer = new StreamWriter(pipe))
+            {
+                Console.WriteLine("Jungiamasi prie Master...");
+                pipe.Connect();
+                Console.WriteLine("Prisijungta!");
+
+                writer.AutoFlush = true;
+
+                while (true)
+                {
+                    if (eilesDuomenys.TryDequeue(out string eilute))
+                    {
+                        writer.WriteLine(eilute);
+                        if (eilute == "BAIGTA") break;
+                    }
+                    else
+                    {
+                        Thread.Sleep(100);
+                    }
+                }
+            }
         }
     }
 }
