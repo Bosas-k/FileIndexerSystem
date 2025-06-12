@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScannerA", "ScannerA\ScannerA.csproj", "{00BAA9DC-2FA1-4F7B-8BB3-5F8C9ED708D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScannerB", "ScannerB\ScannerB.csproj", "{22ABBEEF-F388-4B8B-934F-CC287D9C0D6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Master", "Master\Master.csproj", "{D4C5A039-A1FF-4787-9CE5-84C55CA4D60E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{00BAA9DC-2FA1-4F7B-8BB3-5F8C9ED708D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00BAA9DC-2FA1-4F7B-8BB3-5F8C9ED708D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00BAA9DC-2FA1-4F7B-8BB3-5F8C9ED708D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00BAA9DC-2FA1-4F7B-8BB3-5F8C9ED708D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22ABBEEF-F388-4B8B-934F-CC287D9C0D6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22ABBEEF-F388-4B8B-934F-CC287D9C0D6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22ABBEEF-F388-4B8B-934F-CC287D9C0D6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22ABBEEF-F388-4B8B-934F-CC287D9C0D6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4C5A039-A1FF-4787-9CE5-84C55CA4D60E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4C5A039-A1FF-4787-9CE5-84C55CA4D60E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4C5A039-A1FF-4787-9CE5-84C55CA4D60E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4C5A039-A1FF-4787-9CE5-84C55CA4D60E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
